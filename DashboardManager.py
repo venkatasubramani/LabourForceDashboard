@@ -409,13 +409,4 @@ class DashboardManager:
         self.app.run_server(debug=True, port=port)
 
 
-if __name__ == "__main__":
-    # Instantiate handlers
-    file_handler = FileHandler(
-        processed_dir='processed',
-        model_results_dir='model_results')
-    plot_manager = PlotManager()
 
-    # Set up and run dashboard
-    dashboard_manager = DashboardManager(file_handler, plot_manager)
-    dashboard_manager.run()
