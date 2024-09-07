@@ -91,6 +91,7 @@ class DashboardManager:
 
 
         ])
+        self.setup_layout()
 
     def setup_footer(self):
         """
