@@ -92,6 +92,7 @@ class DashboardManager:
 
         ])
         self.setup_layout()
+        self.setup_callbacks()
 
     def setup_footer(self):
         """
@@ -409,8 +410,6 @@ class DashboardManager:
         """
         Run the Dash app.
         """
-        self.setup_layout()
-        self.setup_callbacks()
         self.app.run_server(debug=True, port=port)
 
 
