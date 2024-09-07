@@ -7,7 +7,7 @@ This project is a Labour Force Dashboard built using Python and Dash. The dashbo
 - Dropdown menus to select datasets and columns.
 - Visualization of labour force data.
 - Download options for processed data.
-- Linear regression model for data analysis.
+- Linear regression model, Prophet & XGBoost for data analysis.
 
 ## Installation
 
@@ -42,9 +42,14 @@ This project is a Labour Force Dashboard built using Python and Dash. The dashbo
 
 - `app.py`: The main application file that initializes the Dash app, sets up the layout, and defines the callbacks for interactivity.
 - `DashboardManager.py`: Contains the logic for managing the dashboard components, including dropdowns and data processing functions.
+- `FileHandler.py`: Handles the path and dynamically edit the path during run-time based on the dropdown selection.
+- `LabourSurveyDataPrep`: This is responsible for getting the processed data from the raw data.
+- `LabourForecastModels`: This is responsible for the forecasting the data with different timeseries algorithm
+- `Models/`: This folder contains the different model implementations and the basemodel.
+- `PlotManager.Py`: This is responsible for reusing the code of the plot for different pots.
 - `requirements.txt`: A list of required Python packages for the project.
-- `data/`: A directory to store input data files (e.g., Excel files).
-- `assets/`: A directory for storing static assets like CSS files for custom styling.
+- `input/`: A directory to store input data files (e.g., Excel files).
+- `processed/`: A directory for storing processed data files
 - `README.md`: This file, providing an overview and documentation for the project.
 
 ### Detailed File Descriptions
@@ -68,11 +73,14 @@ This file lists all the Python packages required to run the project. It includes
 - `dateutil`: For parsing dates.
 - `autopep8`: For code formatting.
 
-#### `data/`
-This directory is intended to store input data files, such as Excel files containing labour force data. Ensure that the data files are placed here for the application to read and process.
+#### `input/`
+This directory is intended to store raw input data files.
 
-#### `assets/`
-This directory is used to store static assets like CSS files. You can add custom stylesheets here to customize the appearance of the dashboard.
+#### `processed/`
+This directory is used for storing the processed data files.
+
+#### `model_results/`
+This directory is used for saving the model results.
 
 #### `README.md`
 This file provides an overview of the project, installation instructions, usage details, project structure, code formatting guidelines, contribution instructions, license information, and acknowledgements.
