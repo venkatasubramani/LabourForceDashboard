@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 from FileHandler import FileHandler
 from PlotManager import PlotManager
-
+import os
 
 class DashboardManager:
     """
@@ -57,7 +57,7 @@ class DashboardManager:
             dbc.Row([
                 dbc.Col(html.P('Labour Age Range'), width=4),
                 dbc.Col(html.P('Category'), width=4),
-                dbc.Col(html.P('Algorithm'), width=4),
+                dbc.Col(html.P('Model'), width=4),
             ]),
             dbc.Row([
                 dbc.Col(dcc.Dropdown(
@@ -151,16 +151,27 @@ class DashboardManager:
                 dbc.NavItem(dbc.NavLink("Home", href="/")),
                 
                 dbc.DropdownMenu(
-                label="Data Source",
+                label="Source Data",
                 children=[
-                    dbc.DropdownMenuItem("go to ONS Source page", 
-                                         href="https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/datasets/summaryoflabourmarketstatistics",
-                                         external_link=True, 
-                                         target="_blank"),
+                   # Download option to download the file from the 'input' folder
+                dbc.DropdownMenuItem( 
+                    html.I(" Download ONS Data ",className="fa-solid  fa-download")
+                     
+                     , id="download-data-btn"),
                 ],
                 nav=True,  # Ensures that the dropdown is part of the navigation bar
                 in_navbar=True,
             ),
+                # Processed Data download menu
+                dbc.DropdownMenu(
+                    label="Processed Data",
+                    children=[
+                        dbc.DropdownMenuItem(html.I(" Download '16 and Over'",className="fa-solid  fa-download"), id="download-sixteen-and-over-btn"),
+                        dbc.DropdownMenuItem(html.I(" Download '16 to 64'",className="fa-solid  fa-download"), id="download-sixteen-and-sixty-four-btn"),
+                    ],
+                    nav=True,
+                    in_navbar=True,
+                ),
                 dbc.NavItem(
                     dbc.NavLink(
                         "16 & over",
@@ -177,6 +188,9 @@ class DashboardManager:
             html.Br(),
             html.Br(),
             html.Br(),
+            dcc.Download(id="download-data"), 
+            dcc.Download(id="download-sixteen-and-over"),  # Download '16 and Over'
+            dcc.Download(id="download-sixteen-and-sixty-four"),  # Download '16 to 64'
             html.Div(id='page-content'),
             self.setup_footer(), 
         ])
@@ -185,6 +199,43 @@ class DashboardManager:
         """
         Set up the callbacks for interactivity.
         """
+        @self.app.callback(
+            Output("download-data", "data"),  # Create download trigger
+            [Input("download-data-btn", "n_clicks")],
+            prevent_initial_call=True,
+        )
+        def download_data(n_clicks):
+            # Path to the file to be downloaded
+            file_path = os.path.join("input", "a01aug2024.xls")
+            
+            # Check if the file exists before sending it
+            if os.path.exists(file_path):
+                return dcc.send_file(file_path)
+            else:
+                raise Exception(f"File {file_path} not found.")
+        @self.app.callback(
+            Output("download-sixteen-and-over", "data"),
+            [Input("download-sixteen-and-over-btn", "n_clicks")],
+            prevent_initial_call=True,
+        )
+        def download_sixteen_and_over(n_clicks):
+            file_path = os.path.join("processed", "sixteen_and_over.csv")
+            if os.path.exists(file_path):
+                return dcc.send_file(file_path)
+            else:
+                raise Exception(f"File {file_path} not found.")
+
+        @self.app.callback(
+            Output("download-sixteen-and-sixty-four", "data"),
+            [Input("download-sixteen-and-sixty-four-btn", "n_clicks")],
+            prevent_initial_call=True,
+        )
+        def download_sixteen_and_sixty_four(n_clicks):
+            file_path = os.path.join("processed", "sixteen_and_sixty_four.csv")
+            if os.path.exists(file_path):
+                return dcc.send_file(file_path)
+            else:
+                raise Exception(f"File {file_path} not found.")
 
         @self.app.callback(Output('page-content', 'children'),
                            [Input('url', 'pathname')])
