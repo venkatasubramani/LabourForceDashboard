@@ -28,6 +28,9 @@ class DashboardManager:
                 dbc.themes.BOOTSTRAP,
                 "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"],
             suppress_callback_exceptions=True)
+        
+        self.server = self.app.server
+        
         self.sixteen_and_sixty_four_page = html.Div(
             [
                 html.H3("Labour force population Levels and Rates for '16 to 64 age group'"),
@@ -37,6 +40,7 @@ class DashboardManager:
                     id='sixteen-sixty-four-rates-plot'),
                 html.Hr(),
             ])
+        
 
         self.sixteen_and_over_page = html.Div(
             [
